@@ -2,18 +2,18 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>GBT TERMINAL | v7.0 FIX</title>
+    <title>GBT TERMINAL | IRAN-PRO v8.0</title>
     <style>
         :root { --bg: #000; --border: #1a1a1a; --gold: #ff9900; --text: #d1d1d1; }
         body, html { margin: 0; padding: 0; height: 100vh; background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; overflow: hidden; }
-        .grid-container { display: grid; grid-template-columns: 1fr 380px; grid-template-rows: 45px 1fr; height: 100vh; gap: 2px; background: var(--border); }
-        .header-ticker { grid-column: 1 / -1; background: #050505; border-bottom: 1px solid var(--border); }
+        .grid-container { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 50px 1fr; height: 100vh; gap: 4px; background: var(--border); }
+        .header-ticker { grid-column: 1 / -1; background: #050505; border-bottom: 2px solid var(--gold); }
         .chart-area { grid-column: 1; background: #000; position: relative; }
-        .news-sidebar { grid-column: 2; background: #000; overflow: hidden; display: flex; flex-direction: column; border-left: 1px solid var(--border); }
-        .section-label { background: #0a0a0a; color: var(--gold); font-size: 11px; padding: 5px; border-bottom: 1px solid var(--border); text-align: center; }
+        .news-sidebar { grid-column: 2; background: #000; overflow-y: auto; display: flex; flex-direction: column; }
+        .section-label { background: #0a0a0a; color: var(--gold); font-size: 12px; padding: 8px; border-bottom: 1px solid var(--border); text-align: center; font-weight: bold; }
         
-        /* استایل اختصاصی برای کند کردن نوار بالا */
-        .tv-ticker-tape { animation-duration: 80s !important; }
+        /* افزایش وضوح برای اخبار */
+        iframe#live-news { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
@@ -25,21 +25,22 @@
             <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
             {
             "symbols": [
-                {"proName": "FX_IDC:XAUUSD", "title": "GOLD"},
-                {"proName": "NASDAQ:IXIC", "title": "NASDAQ 100"},
-                {"proName": "NYSE:JPM", "title": "JPMORGAN"},
-                {"proName": "FX_IDC:USDTIRR", "title": "USD/IRR"},
-                {"proName": "BITSTAMP:BTCUSD", "title": "BITCOIN"},
-                {"proName": "TVC:UKOIL", "title": "BRENT OIL"}
+                {"proName": "FX_IDC:XAUUSD", "title": "انس جهانی طلا"},
+                {"proName": "AMEX:GLD", "title": "طلا 18 عیار (تعمیمی)"},
+                {"proName": "FX_IDC:USDTIRR", "title": "دلار تهران (تتر)"},
+                {"proName": "BITSTAMP:BTCUSD", "title": "بیت‌کوین"},
+                {"proName": "FX_IDC:XAGUSD", "title": "نقره"},
+                {"description": "حباب دلار/انس", "proName": "CAPITALCOM:DXY"}
             ],
-            "showSymbolLogo": true, "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "en"
+            "showSymbolLogo": true, "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "fa"
             }
             </script>
         </div>
     </div>
 
     <div class="chart-area">
-        <div id="tv_chart_main" style="height: 100%;"></div>
+        <div class="section-label">تحلیل تکنیکال لایو (تایمر فعال)</div>
+        <div id="tv_chart_main" style="height: calc(100% - 30px);"></div>
         <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
         <script type="text/javascript">
             new TradingView.widget({
@@ -49,38 +50,22 @@
                 "timezone": "Etc/UTC",
                 "theme": "dark",
                 "style": "1",
-                "locale": "en",
+                "locale": "fa",
                 "toolbar_bg": "#000",
                 "enable_publishing": true,
                 "withdateranges": true,
                 "hide_side_toolbar": false,
                 "allow_symbol_change": true,
                 "details": true,
-                "hotlist": true,
-                "calendar": true,
                 "container_id": "tv_chart_main",
-                "show_popup_button": true,
                 "enabled_features": ["countdown", "label_last_price_value_countdown"]
             });
         </script>
     </div>
 
     <div class="news-sidebar">
-        <div class="section-label">LIVE WIRE: MULTI-SOURCE FEED</div>
-        <div class="tradingview-widget-container" style="height: 100%;">
-            <div class="tradingview-widget-container__widget"></div>
-            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
-            {
-            "feedMode": "all_symbols",
-            "isTransparent": true,
-            "displayMode": "regular",
-            "width": "100%",
-            "height": "100%",
-            "colorTheme": "dark",
-            "locale": "en"
-            }
-            </script>
-        </div>
+        <div class="section-label">آخرین اخبار بازار جهانی و ایران (LIVE)</div>
+        <iframe id="live-news" src="https://cryptopanic.com/widgets/news/?bg_color=000000&font_family=sans-serif&header_bg_color=0a0a0a&header_text_color=ff9900&link_color=00b8ff&news_feed=all&text_color=d1d1d1&title=Market%20Pulse"></iframe>
     </div>
 </div>
 
