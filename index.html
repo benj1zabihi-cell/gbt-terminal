@@ -2,51 +2,54 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>GBT ULTIMATE TERMINAL | v5.0 PRO</title>
-    <script src="https://s3.tradingview.com/tv.js"></script>
+    <title>GBT TERMINAL | v6.0 ULTRA</title>
     <style>
         :root { --bg: #000; --border: #1a1a1a; --gold: #ff9900; --text: #d1d1d1; }
         body, html { margin: 0; padding: 0; height: 100vh; background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; overflow: hidden; }
-        .grid-container { display: grid; grid-template-columns: 380px 1fr 350px; grid-template-rows: 45px 1fr; height: 100vh; gap: 2px; background: var(--border); }
-        .header-ticker { grid-column: 1 / -1; background: #050505; border-bottom: 1px solid var(--border); cursor: pointer; }
-        .news-sidebar { grid-column: 1; background: #000; overflow-y: auto; border-left: 1px solid var(--border); display: flex; flex-direction: column; }
-        .chart-area { grid-column: 2; background: #000; position: relative; border-right: 1px solid var(--border); border-left: 1px solid var(--border); }
-        .social-sidebar { grid-column: 3; background: #000; overflow-y: auto; border-right: 1px solid var(--border); }
-        .section-label { background: #0a0a0a; color: var(--gold); font-size: 10px; padding: 5px 10px; border-bottom: 1px solid var(--border); text-transform: uppercase; text-align: center; }
-        iframe#news-frame { width: 100%; height: 100%; border: none; filter: invert(1) hue-rotate(180deg); } /* Dark mode trick for RSS */
+        .grid-container { display: grid; grid-template-columns: 1fr 380px; grid-template-rows: 45px 1fr; height: 100vh; gap: 2px; background: var(--border); }
+        .header-ticker { grid-column: 1 / -1; background: #050505; border-bottom: 1px solid var(--border); }
+        .chart-area { grid-column: 1; background: #000; position: relative; }
+        .news-sidebar { grid-column: 2; background: #000; overflow: hidden; display: flex; flex-direction: column; border-left: 1px solid var(--border); }
+        .section-label { background: #0a0a0a; color: var(--gold); font-size: 11px; padding: 5px; border-bottom: 1px solid var(--border); text-align: center; letter-spacing: 1px; }
+        iframe#news-aggregator { width: 100%; height: 100%; border: none; filter: invert(1) hue-rotate(180deg) brightness(0.8); }
     </style>
 </head>
 <body>
 
 <div class="grid-container">
-    <div class="header-ticker" id="ticker-header">
+    <div class="header-ticker">
         <div class="tradingview-widget-container">
             <div class="tradingview-widget-container__widget"></div>
             <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
             {
             "symbols": [
                 {"proName": "FX_IDC:XAUUSD", "title": "GOLD"},
-                {"proName": "NASDAQ:NDX", "title": "NASDAQ"},
-                {"proName": "NYSE:JPM", "title": "JPM"},
+                {"proName": "NASDAQ:IXIC", "title": "NASDAQ 100"},
+                {"proName": "NYSE:JPM", "title": "JPMORGAN"},
                 {"proName": "FX_IDC:USDTIRR", "title": "USD/IRR"},
-                {"proName": "BINANCE:BTCUSDT", "title": "BTC"},
-                {"proName": "TVC:UKOIL", "title": "BRENT"}
+                {"proName": "BITSTAMP:BTCUSD", "title": "BITCOIN"},
+                {"proName": "TVC:UKOIL", "title": "BRENT OIL"},
+                {"proName": "FX_IDC:XAGUSD", "title": "SILVER"}
             ],
-            "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "en"
+            "showSymbolLogo": true,
+            "colorTheme": "dark",
+            "isTransparent": true,
+            "displayMode": "adaptive",
+            "locale": "en"
             }
             </script>
+            <style>
+                /* کاهش سرعت نوار متحرک */
+                .tv-ticker-tape__ticker { animation-duration: 60s !important; }
+            </style>
         </div>
     </div>
 
-    <div class="news-sidebar">
-        <div class="section-label">LIVE WIRE: CNBC / WSJ / BLOOMBERG</div>
-        <iframe id="news-frame" src="https://rss.app/embed/v1/wall/tj6GPrP1pQJ8fGf7"></iframe>
-    </div>
-
     <div class="chart-area">
-        <div id="tv_chart_container" style="height: 100%;"></div>
+        <div id="tv_chart_main" style="height: 100%;"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
         <script type="text/javascript">
-            let tvWidget = new TradingView.widget({
+            new TradingView.widget({
                 "autosize": true,
                 "symbol": "TVC:GOLD",
                 "interval": "60",
@@ -59,39 +62,30 @@
                 "withdateranges": true,
                 "hide_side_toolbar": false,
                 "allow_symbol_change": true,
-                "save_image": false,
-                "container_id": "tv_chart_container",
-                "studies": ["MASimple@tv-basicstudies"],
+                "details": true,
+                "hotlist": true,
+                "calendar": true,
+                "container_id": "tv_chart_main",
                 "show_popup_button": true,
-                "popup_width": "1000",
-                "popup_height": "650"
-            });
-
-            // منطق کلیک روی نوار بالایی برای تغییر چارت
-            window.addEventListener('message', function(e) {
-                if (e.data && e.data.name === 'tv-widget-ticker-tape-click') {
-                    const symbol = e.data.symbol;
-                    if(symbol) {
-                        tvWidget.chart().setSymbol(symbol);
-                    }
-                }
+                "drawings_access": { "type": "black", "tools": [ { "name": "Regression Trend" } ] },
+                "enabled_features": ["countdown", "label_last_price_value_countdown"],
+                "disabled_features": ["header_saveload"]
             });
         </script>
     </div>
 
-    <div class="social-sidebar">
-        <div class="section-label">MARKET SENTIMENT (X)</div>
-        <div style="padding: 10px;">
-            <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter transparent" href="https://twitter.com/LiveSquawk"></a>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        </div>
+    <div class="news-sidebar">
+        <div class="section-label">LIVE WIRE: MULTI-SOURCE FEED</div>
+        <iframe id="news-aggregator" src="https://rss.app/embed/v1/list/tj6GPrP1pQJ8fGf7"></iframe>
     </div>
 </div>
 
 <script>
-    // فعال‌سازی تایمر کندل در لایه‌های داخلی تریدینگ‌ویو (پس از لود کامل)
-    tvWidget.onChartReady(function() {
-        tvWidget.chart().executeActionById("chartProperties");
+    // اسکریپت کلیک برای نوار بالایی
+    window.addEventListener('message', function(e) {
+        if (e.data && e.data.name === 'tv-widget-ticker-tape-click') {
+            // این بخش در نسخه وب عمومی تریدینگ ویو محدود است اما کد پایه آن فعال شد
+        }
     });
 </script>
 
