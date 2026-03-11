@@ -2,62 +2,54 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>GBT ULTIMATE TERMINAL | 2026</title>
+    <title>GBT ULTIMATE TERMINAL | v4.0 PRO</title>
     <style>
-        :root { --bg: #000; --border: #222; --gold: #ff9900; --text: #d1d1d1; }
+        :root { --bg: #000; --border: #1a1a1a; --gold: #ff9900; --text: #d1d1d1; }
         body, html { margin: 0; padding: 0; height: 100vh; background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; overflow: hidden; }
-        
-        .grid-container { display: grid; grid-template-columns: 350px 1fr 350px; grid-template-rows: 60px 1fr; height: 100vh; gap: 2px; background: var(--border); }
-        
-        /* Header / Section 3 */
-        .header { grid-column: 1 / -1; background: #0a0a0a; display: flex; align-items: center; padding: 0 20px; overflow: hidden; }
-        .ticker-wrap { white-space: nowrap; overflow: hidden; width: 100%; }
-        .ticker-item { display: inline-block; padding: 0 20px; font-weight: bold; font-size: 0.9em; border-right: 1px solid #333; }
-        .green { color: #0f0; } .red { color: #f00; }
-
-        /* Section 1: News */
-        .news-sidebar { grid-column: 1; background: #050505; padding: 10px; overflow-y: auto; border-right: 1px solid var(--border); }
-        .news-source { font-size: 0.7em; color: var(--gold); margin-bottom: 5px; border-bottom: 1px solid #333; padding: 10px 0; }
-        .news-item { font-size: 0.85em; margin-bottom: 12px; line-height: 1.4; border-right: 2px solid #444; padding-right: 8px; cursor: pointer; }
-        .news-item:hover { color: #fff; border-right-color: var(--gold); }
-
-        /* Section 2: TradingView Chart */
-        .chart-area { grid-column: 2; background: #000; position: relative; }
-
-        /* Section 4: Twitter */
-        .social-sidebar { grid-column: 3; background: #050505; padding: 5px; overflow-y: auto; border-left: 1px solid var(--border); }
-        
-        h3 { font-size: 0.9em; color: var(--gold); margin: 10px 0; text-align: center; border-bottom: 1px dotted #333; padding-bottom: 5px; }
+        .grid-container { display: grid; grid-template-columns: 350px 1fr 350px; grid-template-rows: 45px 1fr; height: 100vh; gap: 2px; background: var(--border); }
+        .header-ticker { grid-column: 1 / -1; background: #050505; border-bottom: 1px solid var(--border); overflow: hidden; }
+        .social-sidebar { grid-column: 1; background: #000; overflow-y: auto; border-right: 1px solid var(--border); }
+        .chart-area { grid-column: 2; background: #000; position: relative; border-right: 1px solid var(--border); border-left: 1px solid var(--border); }
+        .news-sidebar { grid-column: 3; background: #000; overflow: hidden; display: flex; flex-direction: column; }
+        .section-label { background: #0a0a0a; color: var(--gold); font-size: 10px; padding: 5px 10px; border-bottom: 1px solid var(--border); text-transform: uppercase; letter-spacing: 1px; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="grid-container">
-    <div class="header">
-        <div class="ticker-wrap">
-            <div class="ticker-item">GOLD: <span class="green" id="p1">$5,212.40</span></div>
-            <div class="ticker-item">SILVER: <span class="green" id="p2">$34.12</span></div>
-            <div class="ticker-item">BRENT: <span class="red" id="p3">$89.42</span></div>
-            <div class="ticker-item">DXY: <span class="green" id="p4">99.07</span></div>
-            <div class="ticker-item">NASDAQ: <span class="red" id="p5">-1.52%</span></div>
-            <div class="ticker-item">JPM: <span class="red" id="p6">-2.72%</span></div>
+    <div class="header-ticker">
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+            {
+            "symbols": [
+                {"proName": "FX_IDC:XAUUSD", "title": "GOLD"},
+                {"proName": "FX_IDC:XAGUSD", "title": "SILVER"},
+                {"proName": "NASDAQ:NDX", "title": "NASDAQ 100"},
+                {"proName": "NYSE:JPM", "title": "JP MORGAN"},
+                {"proName": "FX_IDC:USDTIRR", "title": "USD/IRR"},
+                {"proName": "TVC:UKOIL", "title": "BRENT OIL"},
+                {"proName": "BINANCE:BTCUSDT", "title": "BITCOIN"},
+                {"proName": "BINANCE:ETHUSDT", "title": "ETHEREUM"},
+                {"proName": "CME_MINI:ES1!", "title": "S&P 500"},
+                {"proName": "FX:DXY", "title": "US DOLLAR INDEX"}
+            ],
+            "showSymbolLogo": true, "colorTheme": "dark", "isTransparent": true, "displayMode": "adaptive", "locale": "en"
+            }
+            </script>
         </div>
     </div>
 
-    <div class="news-sidebar">
-        <h3>GLOBAL NEWS WIRE</h3>
-        <div class="news-source">CNBC / BLOOMBERG / WSJ / REUTERS</div>
-        <div class="news-item"><b>[CNBC]</b> Fed considers emergency liquidity facility after JPM report.</div>
-        <div class="news-item"><b>[REUTERS]</b> Shipments through Hormuz down 85% this week.</div>
-        <div class="news-item"><b>[BLOOMBERG]</b> Gold safe-haven premium reaches 2026 high.</div>
-        <div class="news-item"><b>[WSJ]</b> Blackstone CEO warns of "structural shift" in private credit.</div>
-        <div class="news-item"><b>[FT]</b> Iranian security fees: Maritime insurers halt coverage.</div>
-        <div class="news-item"><b>[NYT]</b> Escalation in Hormuz: US reinforces naval presence.</div>
-        <div class="news-item"><b>[CNBC]</b> Tech stocks lead Nasdaq sell-off as yields spike.</div>
+    <div class="social-sidebar">
+        <div class="section-label">X (Twitter) Feed</div>
+        <div id="twitter-container" style="padding: 5px;">
+            <a class="twitter-timeline" data-theme="dark" data-chrome="noheader nofooter noborders transparent" href="https://twitter.com/business"></a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
     </div>
 
     <div class="chart-area">
-        <div id="tradingview_widget" style="height: 100%;"></div>
+        <div id="tradingview_main" style="height: 100%;"></div>
         <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
         <script type="text/javascript">
           new TradingView.widget({
@@ -68,38 +60,38 @@
             "theme": "dark",
             "style": "1",
             "locale": "en",
-            "toolbar_bg": "#f1f3f6",
-            "enable_publishing": false,
+            "toolbar_bg": "#000",
+            "enable_publishing": true,
             "withdateranges": true,
             "hide_side_toolbar": false,
             "allow_symbol_change": true,
             "details": true,
             "hotlist": true,
             "calendar": true,
-            "container_id": "tradingview_widget"
+            "show_popup_button": true,
+            "container_id": "tradingview_main"
           });
         </script>
     </div>
 
-    <div class="social-sidebar">
-        <h3>X (TWITTER) FEED</h3>
-        <a class="twitter-timeline" data-theme="dark" href="https://twitter.com/business?ref_src=twsrc%5Etfw">Loading Feed...</a> 
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <div class="news-sidebar">
+        <div class="section-label">Live Market News Wire</div>
+        <div class="tradingview-widget-container" style="height: 100%;">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+            {
+            "feedMode": "all_symbols",
+            "isTransparent": true,
+            "displayMode": "regular",
+            "width": "100%",
+            "height": "100%",
+            "colorTheme": "dark",
+            "locale": "en"
+            }
+            </script>
+        </div>
     </div>
 </div>
-
-<script>
-    // شبیه‌سازی نوسان قیمت در هدر
-    setInterval(() => {
-        const prices = ['p1', 'p2', 'p3', 'p4'];
-        prices.forEach(id => {
-            let el = document.getElementById(id);
-            let val = parseFloat(el.innerText.replace('$', ''));
-            let newNodes = (val + (Math.random() - 0.5) * 0.5).toFixed(2);
-            el.innerText = id === 'p4' ? newNodes : '$' + newNodes;
-        });
-    }, 2000);
-</script>
 
 </body>
 </html>
